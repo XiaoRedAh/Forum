@@ -17,23 +17,26 @@
             @open="handleOpen"
             @close="handleClose"
         >
-          <el-sub-menu index="1">
-            <template #title>
-              <el-icon><Compass/></el-icon>
-              <span>交流论坛</span>
-            </template>
-              <el-menu-item index="1-1">帖子广场</el-menu-item>
-              <el-menu-item index="1-2">发表帖子</el-menu-item>
-              <el-menu-item index="1-3">我的收藏</el-menu-item>
-          </el-sub-menu>
-          <el-sub-menu index="2">
-            <template #title>
-              <el-icon><Setting/></el-icon>
-              <span>账号设置</span>
-            </template>
-            <el-menu-item index="2-1">个人信息</el-menu-item>
-            <el-menu-item index="2-2">隐私设置</el-menu-item>
-          </el-sub-menu>
+          <el-menu-item index="1">
+              <el-icon><Menu /></el-icon>
+              <span>帖子列表</span>
+          </el-menu-item>
+          <el-menu-item index="2">
+            <el-icon><Document /></el-icon>
+            <span>校园表白墙</span>
+          </el-menu-item>
+          <el-menu-item index="3">
+            <el-icon><Help /></el-icon>
+            <span>帖子管理</span>
+          </el-menu-item>
+          <el-menu-item index="4">
+            <el-icon><Compass/></el-icon>
+            <span>我的收藏</span>
+          </el-menu-item>
+          <el-menu-item index="5">
+            <el-icon><Tools /></el-icon>
+            <span>个人设置</span>
+          </el-menu-item>
         </el-menu>
       </el-aside>
       <el-container>
@@ -83,7 +86,7 @@ import {get} from "@/net"
 import {ElMessage} from "element-plus";
 import router from "@/router";
 import {useStore} from "@/stores";
-import {User, SwitchButton, Fold, Search,Compass,Setting,Expand} from "@element-plus/icons-vue";
+import {User, SwitchButton, Fold, Search,Compass,Menu,Expand,Document,Help,Tools} from "@element-plus/icons-vue";
 import {ref} from "vue";
 
 const store = useStore()//用户信息存储在这个全局变量中
