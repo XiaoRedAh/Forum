@@ -71,6 +71,7 @@ const login = () =>{
       get('/api/user/me',(message)=>{
         //获取成功，就将用户信息存储在前端，然后才跳转到index
         store.auth.user = message
+        localStorage.setItem("user", JSON.stringify(message))//存在localStorage永久存储
         router.push('/index')
       },()=>{
         store.auth.user = null

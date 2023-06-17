@@ -1,5 +1,6 @@
 import axios from "axios";
 import {ElMessage} from "element-plus";
+import router from "@/router";
 
 //失败和异常给个默认处理就行
 const defaultError = ()=>ElMessage.error('发生了一些错误，请联系管理员')
@@ -15,7 +16,12 @@ function post(url, data, success, failure = defaultFailure, error = defaultError
         },
         withCredentials: true//发起请求，携带cookie（基于session的校验需要cookie，以后用jwt的时候就不用cookie了）
     }).then(({data})=>{
-        if(data.success)
+        if(data.status===401){//用户没登陆，后端会响应401
+            //没登录，直接退回去
+            router.push('/')
+            ElMessage.warning('请重新登录')
+        }
+        else if(data.success)
             success(data.message, data.status)
         else
             failure(data.message, data.status)
@@ -28,7 +34,12 @@ function get(url, success, failure = defaultFailure, error = defaultError){
         //因为get方法不需要提交东西，所以不用配置headers
         withCredentials: true//发起请求，携带cookie（基于session的校验需要cookie，以后用jwt的时候就不用cookie了）
     }).then(({data})=>{
-        if(data.success)
+        if(data.status===401){//用户没登陆，后端会响应401
+            //没登录，直接退回去
+            router.push('/')
+            ElMessage.warning('请重新登录')
+        }
+        else if(data.success)
             success(data.message, data.status,)
         else
             failure(data.message, data.status)

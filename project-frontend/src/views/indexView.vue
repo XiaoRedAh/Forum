@@ -12,6 +12,7 @@
         </div>
         <!--左侧导航栏-->
         <el-menu
+            :default-active="router.currentRoute.value.path"
             class="content-aside-menu"
             router
         >
@@ -99,6 +100,7 @@ const logout = ()=>{
     //先把用户的登录状态清空，才能成功返回到登录页面（配置了路由守卫，如果不清空，前端还是认为你是登录状态，回不到登录页面）
     ElMessage.success(message)
     store.auth.user = null
+    localStorage.removeItem('user')//将localStorage存储的用户信息也删掉
     router.push('/')//跳转回登录页面
   })
 }
