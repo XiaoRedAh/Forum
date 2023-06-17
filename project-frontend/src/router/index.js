@@ -17,17 +17,17 @@ const router = createRouter({
           //path什么都不写，默认展示登录界面的组件
           path: '',
           name: 'welcome-login',
-          component: ()=>import('@/components/welcome/LoginPage.vue')
+          component: ()=>import('@/views/welcome/LoginPage.vue')
         },{
           //路由到注册页面的组件
           path: 'register',
           name: 'welcome-register',
-          component: ()=>import('@/components/welcome/RegisterPage.vue')
+          component: ()=>import('@/views/welcome/RegisterPage.vue')
         },{
           //路由到忘记密码的组件
           path: 'forget',
           name: 'welcome-forget',
-          component: ()=>import('@/components/welcome/ForgetPawPage.vue')
+          component: ()=>import('@/views/welcome/ForgetPawPage.vue')
         }
       ]
     },
@@ -41,12 +41,12 @@ const router = createRouter({
           //"帖子列表"界面
           path: '',
           name: 'index-list',
-          component:()=>import('@/components/index/PostList.vue')
+          component:()=>import('@/views/index/PostList.vue')
         },{
           //"个人设置"界面
           path: 'settings',
           name: 'index-settings',
-          component:()=>import('@/components/index/Settings.vue')
+          component:()=>import('@/views/index/Settings.vue')
         }
       ]
     }
