@@ -35,7 +35,20 @@ const router = createRouter({
     {
       path: '/index',
       name: 'index',
-      component:()=>import('@/views/indexView.vue')
+      component:()=>import('@/views/indexView.vue'),
+      children: [
+        {
+          //"帖子列表"界面
+          path: '',
+          name: 'index-list',
+          component:()=>import('@/components/index/PostList.vue')
+        },{
+          //"个人设置"界面
+          path: 'settings',
+          name: 'index-settings',
+          component:()=>import('@/components/index/Settings.vue')
+        }
+      ]
     }
 
   ]

@@ -13,11 +13,9 @@
         <!--左侧导航栏-->
         <el-menu
             class="content-aside-menu"
-            default-active="2"
-            @open="handleOpen"
-            @close="handleClose"
+            router
         >
-          <el-menu-item index="1">
+          <el-menu-item index="/index">
               <el-icon><Menu /></el-icon>
               <span>帖子列表</span>
           </el-menu-item>
@@ -33,7 +31,7 @@
             <el-icon><Compass/></el-icon>
             <span>我的收藏</span>
           </el-menu-item>
-          <el-menu-item index="5">
+          <el-menu-item index="/index/settings">
             <el-icon><Tools /></el-icon>
             <span>个人设置</span>
           </el-menu-item>
@@ -72,8 +70,10 @@
             </el-dropdown>
           </div>
         </el-header>
-        <!--主题内容-->
-        <el-main style="">Main</el-main>
+        <!--主体内容-->
+        <el-main style="padding: 0">
+          <router-view/>
+        </el-main>
       </el-container>
     </el-container>
 
