@@ -5,12 +5,13 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="个人信息设置" name="info">
           <info-settings/>
-
         </el-tab-pane>
         <el-tab-pane label="账号安全设置" name="security">
-
+          <security-settings/>
         </el-tab-pane>
-        <el-tab-pane label="隐私信息" name="privacy">上述</el-tab-pane>
+        <el-tab-pane label="隐私信息" name="privacy">
+          <privacy-settings/>
+        </el-tab-pane>
       </el-tabs>
     </div>
     <!--右侧用一个类似卡片的形式显示一些个人信息-->
@@ -38,6 +39,8 @@
 import {reactive, ref} from "vue";
 import {useStore} from "@/stores";
 import InfoSettings from "@/components/settings/infoSettings.vue";
+import SecuritySettings from "@/components/settings/securitySettings.vue";
+import PrivacySettings from "@/components/settings/PrivacySettings.vue";
 const store = useStore()//用户信息存储在这个全局变量中
 
 const activeName =ref('info')/*默认在“个人信息设置”标签页*/

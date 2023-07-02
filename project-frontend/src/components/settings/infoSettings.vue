@@ -30,11 +30,13 @@
       <el-input type="textarea" v-model="infoFrom.desc" :rows="6"/>
     </el-form-item>
   </el-form>
+  <el-button type="success" :icon="Select">保存个人信息设置</el-button>
 </template>
 
 <script setup>
 import {useStore} from "@/stores";
 const store = useStore()//用户信息存储在这个全局变量中
+import {Select} from "@element-plus/icons-vue";
 
 import {reactive} from "vue";
 /*"个人信息设置"的各个参数*/
