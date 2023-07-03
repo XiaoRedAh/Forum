@@ -23,13 +23,15 @@ public class AuthorizeInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        //从SecurityContext中拿到登录用户的用户信息
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        String username = user.getUsername();
-        AccountUser accountUser = userMapper.findAccountUserByNameOrEmail(username);//一定是可以查到的
-        request.getSession().setAttribute("accountUser", accountUser);//往请求体里的session域里丢用户详细信息，让Controller层拿到它
+        if(request.getSession().getAttribute("accountUser")==null){
+            //从SecurityContext中拿到登录用户的用户信息
+            SecurityContext context = SecurityContextHolder.getContext();
+            Authentication authentication = context.getAuthentication();
+            User user = (User) authentication.getPrincipal();
+            String username = user.getUsername();
+            AccountUser accountUser = userMapper.findAccountUserByNameOrEmail(username);//一定是可以查到的
+            request.getSession().setAttribute("accountUser", accountUser);//往请求体里的session域里丢用户详细信息，让Controller层拿到它
+        }
         return true;
     }
 }

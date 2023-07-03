@@ -16,6 +16,10 @@ spring:
        smtp:
          socketFactory:
            class: javax.net.ssl.SSLSocketFactory
+debug: true #开启日志
+logging:
+  level:
+    com.xiaoRed: debug #设置日志级别
   # 配置Redis。不配也行，反正用的是本地的，就是默认配置
   data:
     redis:

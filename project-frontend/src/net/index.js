@@ -8,11 +8,11 @@ const defaultFailure = (message)=>ElMessage.warning(message)
 
 //封装axios的post方法
 //data就是接收后端响应过来的数据。后端那边统一了响应类，也就是RestBean
-function post(url, data, success, failure = defaultFailure, error = defaultError){
+function post(url, data, success, type = 'x-www-form-urlencoded', failure = defaultFailure, error = defaultError){
     axios.post(url, data, {//配置
-        //由于都是以表单形式提交，因此设置headers的Content-Type为表单形式
+        //由于都是以表单形式提交，因此默认headers的Content-Type为表单形式（但实际写后端穿的一般都是json）
         headers:{
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/' + type
         },
         withCredentials: true//发起请求，携带cookie（基于session的校验需要cookie，以后用jwt的时候就不用cookie了）
     }).then(({data})=>{
