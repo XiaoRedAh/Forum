@@ -48,6 +48,9 @@ import {Lock, Message, Select} from "@element-plus/icons-vue";
 import {get, post} from "@/net";
 import {ElMessage} from "element-plus";
 import router from "@/router";
+import {useStore} from "@/stores";
+
+const store = useStore()//用户信息存储在这个全局变量中
 
 const securityForm = reactive({
   email: '',
@@ -61,7 +64,17 @@ const saveEmail = ()=>{
   emailForm.value.validate((isValid)=>{
     if(isValid){
       post('/api/user/save-email',{email: securityForm.email},
-          ()=>ElMessage.success("保存成功！"))
+          ()=>{
+            //邮箱修改成功后，重新获取用户信息，使得新邮箱马上能呈现在页面上
+            get('/api/user/me',(message)=>{
+              //获取成功，就将用户信息存储在前端，然后才跳转到index
+              store.auth.user = message
+              localStorage.setItem("user", JSON.stringify(message))//存在localStorage永久存储
+            },()=>{
+              store.auth.user = null
+            })
+        ElMessage.success("保存成功！")
+          })
     }else{
       ElMessage.warning("邮箱格式有误，请正确填写")
     }

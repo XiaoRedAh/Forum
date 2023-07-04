@@ -2,6 +2,7 @@ package com.xiaoRed.controller;
 
 import com.xiaoRed.entity.RestBean;
 import com.xiaoRed.entity.user.AccountInfo;
+import com.xiaoRed.entity.user.AccountPrivacy;
 import com.xiaoRed.entity.user.AccountUser;
 import com.xiaoRed.service.UserService;
 import jakarta.annotation.Resource;
@@ -55,7 +56,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("change-password")
+    @PostMapping("/change-password")
     public RestBean<String> changePassword(@Length(min = 6, max =16) @RequestParam("old") String old_paw,
                                            @Length(min = 6, max =16) @RequestParam("new") String new_paw,
                                            @SessionAttribute("accountUser") AccountUser accountUser){
@@ -64,5 +65,18 @@ public class UserController {
         }else{
             return RestBean.failure(400, "原密码错误");
         }
+    }
+
+    @PostMapping("/save-privacy")
+    public RestBean<String> savePrivacy(@RequestBody AccountPrivacy accountPrivacy,
+                                        @SessionAttribute("accountUser") AccountUser accountUser){
+        accountPrivacy.setUid(accountUser.getId());
+        userService.saveUserPrivacy(accountPrivacy);
+        return RestBean.success();
+    }
+
+    @GetMapping("/privacy")
+    public RestBean<AccountPrivacy> privacy(@SessionAttribute("accountUser") AccountUser accountUser){
+        return RestBean.success(userService.userPrivacy(accountUser.getId()));
     }
 }

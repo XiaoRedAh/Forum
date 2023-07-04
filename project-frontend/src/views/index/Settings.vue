@@ -9,7 +9,7 @@
         <el-tab-pane label="账号安全设置" name="security">
           <security-settings/>
         </el-tab-pane>
-        <el-tab-pane label="隐私信息" name="privacy">
+        <el-tab-pane label="隐私设置" name="privacy">
           <privacy-settings/>
         </el-tab-pane>
       </el-tabs>

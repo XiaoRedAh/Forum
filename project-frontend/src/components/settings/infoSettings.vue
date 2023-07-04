@@ -43,6 +43,7 @@ import {Select} from "@element-plus/icons-vue";
 import {onMounted, reactive, ref} from "vue";
 import {post, get} from "@/net";
 import {ElMessage} from "element-plus";
+import router from "@/router";
 
 const form = ref()
 //校验“用户名输入框”不能有特殊字符
@@ -114,6 +115,14 @@ const save = ()=>{
   form.value.validate((isValid)=>{
     if(isValid){
       post('/api/user/save-info',infoFrom,()=>{
+        //用户名修改成功后，重新获取用户信息，使得新用户名马上能呈现在页面上
+        get('/api/user/me',(message)=>{
+          //获取成功，就将用户信息存储在前端，然后才跳转到index
+          store.auth.user = message
+          localStorage.setItem("user", JSON.stringify(message))//存在localStorage永久存储
+        },()=>{
+          store.auth.user = null
+        })
         ElMessage.success("保存成功！")
       },'json')
     }else{

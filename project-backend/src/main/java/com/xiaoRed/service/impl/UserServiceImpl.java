@@ -2,6 +2,7 @@ package com.xiaoRed.service.impl;
 
 import com.xiaoRed.entity.auth.Account;
 import com.xiaoRed.entity.user.AccountInfo;
+import com.xiaoRed.entity.user.AccountPrivacy;
 import com.xiaoRed.mapper.UserMapper;
 import com.xiaoRed.service.UserService;
 import jakarta.annotation.Resource;
@@ -44,14 +45,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean changePassword(String old_paw, String new_paw, long uid) {
-        Account account = userMapper.findAccountById(uid);
+        Account account = userMapper.findAccountById(uid);//通过uid找到当前用户
+        //输入的原密码和在数据库中加密存储的密码如果匹配上，才能改密码
         if(encoder.matches(old_paw, account.getPassword())){
+            //加密后再存储到数据库
             String encode = encoder.encode(new_paw);
             userMapper.updatePassword(encode, uid);
             return true;
-        }else{
+        }else{//原密码输入错误，不能修改密码
             return false;
         }
+    }
+
+    @Override
+    public void saveUserPrivacy(AccountPrivacy accountPrivacy) {
+        userMapper.savePrivacy(accountPrivacy);
+    }
+
+    @Override
+    public AccountPrivacy userPrivacy(long uid) {
+        return userMapper.findPrivacyById(uid);
     }
 
 

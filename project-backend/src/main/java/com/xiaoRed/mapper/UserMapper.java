@@ -2,6 +2,7 @@ package com.xiaoRed.mapper;
 
 import com.xiaoRed.entity.auth.Account;
 import com.xiaoRed.entity.user.AccountInfo;
+import com.xiaoRed.entity.user.AccountPrivacy;
 import com.xiaoRed.entity.user.AccountUser;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,4 +38,13 @@ public interface UserMapper {
     void updatePassword(String encode, long uid);
     @Select("select * from db_account where id = #{uid}")
     Account findAccountById(long uid);
+    @Insert(" insert into db_account_privacy(uid, email, sex, phone, qq, wx, blog) " +
+            "values(#{uid}, #{email}, #{sex}, #{phone}, #{qq}, #{wx}, #{blog}) " +
+            "on duplicate key update uid=#{uid}, email=#{email}, sex=#{sex}, phone=#{phone}, " +
+            "qq=#{qq},wx=#{wx},blog=#{blog}")//出现主键重复的时候，只用做更新即可，而不是插入
+    void savePrivacy(AccountPrivacy accountPrivacy);
+
+    @Select("select * from db_account_privacy where uid =#{uid}")
+    AccountPrivacy findPrivacyById(long uid);
+
 }
