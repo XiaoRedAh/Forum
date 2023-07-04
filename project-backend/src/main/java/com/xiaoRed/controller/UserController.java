@@ -5,12 +5,16 @@ import com.xiaoRed.entity.user.AccountInfo;
 import com.xiaoRed.entity.user.AccountUser;
 import com.xiaoRed.service.UserService;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+@Validated
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+    //邮件地址的正则表达式
+    private final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$";
     @Resource
     UserService userService;
     /**
@@ -38,5 +42,27 @@ public class UserController {
     @GetMapping("/info")
     public RestBean<AccountInfo> info(@SessionAttribute("accountUser") AccountUser accountUser){
         return RestBean.success(userService.userInfo(accountUser.getId()));
+    }
+
+    @PostMapping("/save-email")
+    public RestBean<String> saveEmail(@Pattern (regexp = EMAIL_REGEX)@RequestParam("email") String email,
+                                      @SessionAttribute("accountUser") AccountUser accountUser){
+        if(userService.saveEmail(email,accountUser.getId())){
+            accountUser.setEmail(email);//session中的也要进行相应修改
+            return RestBean.success();
+        }else{
+            return RestBean.failure(400,"邮件地址已被其他用户使用，无法修改");
+        }
+    }
+
+    @PostMapping("change-password")
+    public RestBean<String> changePassword(@Length(min = 6, max =16) @RequestParam("old") String old_paw,
+                                           @Length(min = 6, max =16) @RequestParam("new") String new_paw,
+                                           @SessionAttribute("accountUser") AccountUser accountUser){
+        if(userService.changePassword(old_paw, new_paw, accountUser.getId())){
+            return RestBean.success();
+        }else{
+            return RestBean.failure(400, "原密码错误");
+        }
     }
 }

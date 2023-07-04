@@ -5,10 +5,13 @@ import com.xiaoRed.entity.user.AccountInfo;
 import com.xiaoRed.mapper.UserMapper;
 import com.xiaoRed.service.UserService;
 import jakarta.annotation.Resource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     @Resource
     UserMapper userMapper;
     @Override
@@ -28,6 +31,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public AccountInfo userInfo(long uid) {
         return userMapper.findInfoById(uid);
+    }
+
+    @Override
+    public boolean saveEmail(String email, long uid) {
+        Account account = userMapper.findAccountByNameOrEmail(email);
+        if (account == null) {//新邮箱地址没被用过，可以直接更新
+            userMapper.updateEmail(email, uid);
+        }else return account.getId()==uid;//如果新邮箱地址和自己原来的一样，则不用改且返回true；否则不能改，且返回false
+        return true;
+    }
+
+    @Override
+    public boolean changePassword(String old_paw, String new_paw, long uid) {
+        Account account = userMapper.findAccountById(uid);
+        if(encoder.matches(old_paw, account.getPassword())){
+            String encode = encoder.encode(new_paw);
+            userMapper.updatePassword(encode, uid);
+            return true;
+        }else{
+            return false;
+        }
     }
 
 

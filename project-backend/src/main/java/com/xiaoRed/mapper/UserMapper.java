@@ -31,4 +31,10 @@ public interface UserMapper {
 
     @Select("select * from db_account left join db_account_info on id = uid where id =#{uid}")
     AccountInfo findInfoById(long uid);
+    @Update("update db_account set email = #{email} where id = #{uid}")
+    void updateEmail(String email, long uid);
+    @Update("update db_account set password = #{encode} where id = #{uid}")
+    void updatePassword(String encode, long uid);
+    @Select("select * from db_account where id = #{uid}")
+    Account findAccountById(long uid);
 }

@@ -25,7 +25,7 @@ public class AuthorizeController {
 
     //注册功能发送验证码
     @PostMapping("/valid-register-email")
-    public RestBean<String> validateRegisterEmail(@Pattern (regexp = EMAIL_REGEX) @RequestParam("email") String email,
+    public RestBean<String> validateRegisterEmail(@Pattern (regexp = EMAIL_REGEX)@RequestParam("email") String email,
                                           HttpSession session){
         //需要传入Session的id，不然换个邮箱就绕过我设置的60秒冷却时间
         //注册功能发送验证码要求传入的邮箱是未注册的，因此传入false

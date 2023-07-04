@@ -45,6 +45,16 @@ function get(url, success, failure = defaultFailure, error = defaultError){
             failure(data.message, data.status)
     }).catch(error)
 }
+const logout = ()=>{
+    //向后端发送对应路径的get请求
+    get('/api/auth/logout',(message) =>{//退出登录成功
+        //先把用户的登录状态清空，才能成功返回到登录页面（配置了路由守卫，如果不清空，前端还是认为你是登录状态，回不到登录页面）
+        ElMessage.success(message)
+        store.auth.user = null
+        localStorage.removeItem('user')//将localStorage存储的用户信息也删掉
+        router.push('/')//跳转回登录页面
+    })
+}
 
 //封装好后，暴露出去
-export {get, post}
+export {get, post, logout}

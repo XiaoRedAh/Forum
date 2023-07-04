@@ -10,7 +10,7 @@ class ProjectBackendApplicationTests {
 	@Test
 	void contextLoads() {
 		BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
-		System.out.println(encoder.encode("123456"));
+		System.out.println("加密后：" + encoder.encode("123456"));
 	}
 
 }
